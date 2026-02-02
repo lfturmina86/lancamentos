@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lançamentos Coleção 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        h1, h2, h3, .serif-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .wood-accent { color: #8B5A2B; }
+        .bg-wood { background-color: #8B5A2B; }
+        .text-wood { color: #8B5A2B; }
+        
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Modal Animation */
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold serif-font text-gray-800">
+                Coleção<span class="wood-accent">.2026</span>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-500">
+                <a href="#" onclick="filterProducts('all')" class="hover:text-gray-900">Todos</a>
+                <a href="#" onclick="filterProducts('cadeiras')" class="hover:text-gray-900">Assentos</a>
+                <a href="#" onclick="filterProducts('mesas')" class="hover:text-gray-900">Mesas</a>
+            </nav>
+            <button class="bg-gray-900 text-white px-4 py-2 rounded text-sm hover:bg-gray-800 transition">
+                <i class="fas fa-download mr-2"></i> Baixar Catálogo PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="bg-gray-900 text-white py-16 px-4 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div class="container mx-auto relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Lançamentos 2026</h1>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto font-light">
+                Design orgânico, materiais nobres e a essência da marcenaria contemporânea.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters (Mobile) -->
+    <div class="container mx-auto px-4 py-6 md:hidden flex gap-2 overflow-x-auto">
+        <button onclick="filterProducts('all')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap active-filter">Todos</button>
+        <button onclick="filterProducts('cadeiras')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Assentos</button>
+        <button onclick="filterProducts('mesas')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Mesas</button>
+    </div>
+
+    <!-- Product Grid -->
+    <main class="container mx-auto px-4 py-8 mb-12">
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Items will be injected here via JavaScript -->
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden opacity-0 pointer-events-none modal">
+        <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity" onclick="closeModal()"></div>
+        
+        <div class="flex items-center justify-center min-h-screen px-4 py-4">
+            <div class="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative z-10 transform transition-transform scale-95" id="modalContent">
+                
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 z-20">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <!-- Modal Image -->
+                    <div class="bg-gray-100 h-64 md:h-auto flex items-center justify-center relative">
+                        <img id="modalImg" src="" alt="Produto" class="w-full h-full object-cover">
+                        <span id="modalRefTag" class="absolute bottom-4 left-4 bg-white px-3 py-1 text-xs font-bold shadow rounded"></span>
+                    </div>
+
+                    <!-- Modal Details -->
+                    <div class="p-8">
+                        <div class="mb-1">
+                            <span id="modalCategory" class="text-xs font-bold tracking-widest text-wood uppercase"></span>
+                        </div>
+                        <h2 id="modalTitle" class="text-3xl font-bold mb-2 serif-font text-gray-900"></h2>
+                        <p id="modalDesc" class="text-gray-600 mb-6 text-sm leading-relaxed"></p>
+
+                        <!-- Tech Specs Table -->
+                        <div class="border rounded-lg overflow-hidden mb-6">
+                            <table class="w-full text-sm text-left">
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="bg-gray-50">
+                                        <td class="px-4 py-3 font-semibold text-gray-600 w-1/3">Referência</td>
+                                        <td id="modalRef" class="px-4 py-3 text-gray-900"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 font-semibold text-gray-600">Dimensões</td>
+                                        <td id="modalDim" class="px-4 py-3 text-gray-900 whitespace-pre-line"></td>
+                                    </tr>
+                                    <tr class="bg-gray-50">
+                                        <td class="px-4 py-3 font-semibold text-gray-600">Configuração</td>
+                                        <td id="modalConfig" class="px-4 py-3 text-gray-900"></td>
+                                    </tr>
+                                    <tr id="rowVol">
+                                        <td class="px-4 py-3 font-semibold text-gray-600">Volume/Emb.</td>
+                                        <td id="modalVol" class="px-4 py-3 text-gray-900"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button class="flex-1 bg-gray-900 text-white py-3 rounded hover:bg-gray-800 transition font-medium">
+                                <i class="fas fa-envelope mr-2"></i> Orçamento
+                            </button>
+                            <button onclick="window.print()" class="px-4 border border-gray-300 rounded hover:bg-gray-50 text-gray-600">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-auto py-8">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Catálogo Digital. Todas as imagens são ilustrativas.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- DADOS DO PRODUTO (Baseado na tabela image_47cc81.png) ---
+        // Ordenado por Referência Numérica
+        
+        const products = [
+            // 15xx - Mesas de Centro
+            {
+                ref: "1552",
+                name: "Mesa Centro Lyra",
+                category: "mesas",
+                config: "Orgânica",
+                dim: "915x770x315",
+                vol: "2",
+                desc: "Mesa de centro com design orgânico fluido, ideal para salas contemporâneas.",
+                img: "1552A.jpeg"
+            },
+            {
+                ref: "1553",
+                name: "Mesa Centro Ivy",
+                category: "mesas",
+                config: "Orgânica",
+                dim: "1600x800x360",
+                vol: "2",
+                desc: "Mesa de centro ampla com formas naturais e acabamento refinado.",
+                img: "1553A.jpeg"
+            },
+            
+            // 17xx - Mesas Laterais
+            {
+                ref: "1777 / 1778",
+                name: "Mesa Lateral Adele",
+                category: "mesas",
+                config: "Orgânica ou Redonda",
+                dim: "Ref 1777: 380x395x500\nRef 1778: 390x390x600",
+                vol: "1",
+                desc: "Mesa de apoio versátil disponível em duas alturas para composição.",
+                img: "1777A.jpeg"
+            },
+            {
+                ref: "1779 / 1780",
+                name: "Mesa Lateral Caetana",
+                category: "mesas",
+                config: "Orgânica ou Redonda",
+                dim: "Ref 1779: 380x395x550\nRef 1780: 390x390x650",
+                vol: "1",
+                desc: "Design leve e elegante, perfeita para lateral de sofás e poltronas.",
+                img: "1779A.jpeg"
+            },
+
+            // 26xx - Cadeiras
+            {
+                ref: "2677",
+                name: "Cadeira Leonora",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "490x540x860",
+                vol: "2 por cx",
+                desc: "Cadeira com estrutura em madeira maciça e detalhe frontal estofado.",
+                img: "2677A.jpeg"
+            },
+            {
+                ref: "2678",
+                name: "Cadeira Serena",
+                category: "cadeiras",
+                config: "Toda Estofada",
+                dim: "490x540x860",
+                vol: "2 por cx",
+                desc: "Conforto absoluto com assento e encosto totalmente estofados.",
+                img: "2678A.jpeg"
+            },
+            {
+                ref: "2679",
+                name: "Cadeira Mia",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "490x560x840",
+                vol: "2 por cx",
+                desc: "Linhas modernas e compactas, ideal para ambientes dinâmicos.",
+                img: "2679A.jpeg"
+            },
+            {
+                ref: "2680",
+                name: "Cadeira Jamile",
+                category: "cadeiras",
+                config: "Toda Estofada",
+                dim: "490x560x840",
+                vol: "2 por cx",
+                desc: "Sofisticação e aconchego em uma peça totalmente estofada.",
+                img: "2680A.jpeg"
+            },
+
+            // 29xx - Bancos e Poltronas
+            {
+                ref: "2978",
+                name: "Banco Elvira",
+                category: "cadeiras",
+                config: "Assento Estofado",
+                dim: "540x450x455",
+                vol: "1",
+                desc: "Banco versátil e funcional com design limpo.",
+                img: "2978A.jpeg"
+            },
+            {
+                ref: "2979",
+                name: "Poltrona Berenice",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "590x610x835",
+                vol: "1",
+                desc: "Poltrona ampla com excelente suporte lombar e acabamento premium.",
+                img: "2979A.jpeg"
+            },
+            {
+                ref: "2980",
+                name: "Poltrona Giordana",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "545x550x820",
+                vol: "1",
+                desc: "Design envolvente com frente estofada para máximo conforto.",
+                img: "2980A.jpeg" 
+            },
+
+            // 10xxx - Mesas de Jantar (Agrupadas por Modelo/Imagem)
+            {
+                ref: "10550 / 10551",
+                name: "Mesa Sala Josi (Redonda)",
+                category: "mesas",
+                config: "Redondo e Barril",
+                dim: "Ref 10550: 1200x1200x760\nRef 10551: 1500x1500x760",
+                vol: "2",
+                desc: "Mesa de jantar com base estruturada e tampo redondo ou barril.",
+                img: "10551A.jpeg"
+            },
+            {
+                ref: "10553 a 10556",
+                name: "Mesa Sala Josi (Retangular)",
+                category: "mesas",
+                config: "R80 e Barril",
+                dim: "Ref 10553: 1800x1000x760\nRef 10554: 2000x1000x760\nRef 10555: 2200x1100x760\nRef 10556: 2400x1200x760 (R80)",
+                vol: "2",
+                desc: "Versão retangular da Mesa Josi, disponível em grandes formatos.",
+                img: "10553A.jpeg"
+            },
+            {
+                ref: "10558 a 10561",
+                name: "Mesa Sala Geisa",
+                category: "mesas",
+                config: "R80 e Barril",
+                dim: "Ref 10558: 1800x1000x760\nRef 10559: 2000x1000x760\nRef 10560: 2200x1100x760\nRef 10561: 2400x1200x760 (R80)",
+                vol: "2",
+                desc: "Mesa imponente com design de base exclusivo.",
+                img: "10558A.jpeg"
+            },
+            {
+                ref: "10563 a 10566",
+                name: "Mesa Sala Ruby",
+                category: "mesas",
+                config: "R80 e Barril",
+                dim: "Ref 10563: 1800x1000x760\nRef 10564: 2000x1000x760\nRef 10565: 2200x1100x760\nRef 10566: 2400x1200x760 (R80)",
+                vol: "2",
+                desc: "Base escultórica com tampo refinado em madeira.",
+                img: "10563A.jpeg"
+            },
+            {
+                ref: "10568 a 10571",
+                name: "Mesa Sala Edna",
+                category: "mesas",
+                config: "R80 e Barril",
+                dim: "Ref 10568: 1800x1000x760\nRef 10569: 2000x1000x760\nRef 10570: 2200x1100x760\nRef 10571: 2400x1200x760 (R80)",
+                vol: "2",
+                desc: "Linhas retas e modernas, ideal para compor salas de jantar elegantes.",
+                img: "10568A.jpeg"
+            }
+        ];
+
+        // --- FUNÇÕES ---
+
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? products 
+                : products.filter(p => p.category === filter);
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-lg shadow overflow-hidden cursor-pointer group';
+                card.onclick = () => openModal(product);
+                
+                card.innerHTML = `
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="${product.img}" onerror="this.src='https://placehold.co/600x400/e2e8f0/8B5A2B?text=Sem+Foto'" alt="${product.name}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                        <div class="absolute bottom-0 left-0 bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold rounded-tr-lg">
+                            Ref. ${product.ref.split(' ')[0]}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <p class="text-xs text-wood font-bold uppercase tracking-wide mb-1">${product.category === 'cadeiras' ? 'Assento' : 'Mesa'}</p>
+                        <h3 class="text-lg font-bold text-gray-800 leading-tight mb-2 serif-font">${product.name}</h3>
+                        <div class="text-xs text-gray-500 flex justify-between items-center border-t pt-3 mt-2">
+                            <span>Ver Detalhes</span>
+                            <i class="fas fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity text-wood"></i>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openModal(product) {
+            document.getElementById('modalTitle').innerText = product.name;
+            document.getElementById('modalDesc').innerText = product.desc;
+            document.getElementById('modalRef').innerText = product.ref;
+            document.getElementById('modalDim').innerText = product.dim;
+            document.getElementById('modalConfig').innerText = product.config;
+            document.getElementById('modalVol').innerText = product.vol;
+            
+            // Image handling with fallback
+            const imgEl = document.getElementById('modalImg');
+            imgEl.src = product.img;
+            imgEl.onerror = function() {
+                this.src = 'https://placehold.co/600x400/e2e8f0/8B5A2B?text=Imagem+Indisponível';
+            };
+
+            document.getElementById('modalCategory').innerText = product.category === 'cadeiras' ? 'Coleção de Assentos' : 'Coleção de Mesas';
+            document.getElementById('modalRefTag').innerText = `Ref. ${product.ref.split(' ')[0]}`;
+
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.classList.add('modal-active');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.body.classList.remove('modal-active');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function filterProducts(category) {
+            renderProducts(category);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        renderProducts();
+
+    </script>
+</body>
+</html>
