@@ -36,11 +36,19 @@
         body.modal-active {
             overflow-y: hidden;
         }
+
+        /* Esconde barra de rolagem nas miniaturas mas permite rolar */
+        #modalThumbnails::-webkit-scrollbar {
+            height: 4px;
+        }
+        #modalThumbnails::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Header -->
     <header class="bg-white shadow-sm sticky top-0 z-40">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold serif-font text-gray-800">
@@ -52,12 +60,11 @@
                 <a href="#" onclick="filterProducts('mesas')" class="hover:text-gray-900">Mesas</a>
             </nav>
             <a href="https://matrezan.com.br/en/catalogos/" target="_blank" class="bg-gray-900 text-white px-4 py-2 rounded text-sm hover:bg-gray-800 transition inline-flex items-center">
-    <i class="fas fa-download mr-2"></i> Baixar Catálogo PDF
-</a>
+                <i class="fas fa-download mr-2"></i> Baixar Catálogo PDF
+            </a>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <div class="bg-gray-900 text-white py-16 px-4 relative overflow-hidden">
         <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center"></div>
         <div class="container mx-auto relative z-10 text-center">
@@ -68,21 +75,17 @@
         </div>
     </div>
 
-    <!-- Filters (Mobile) -->
     <div class="container mx-auto px-4 py-6 md:hidden flex gap-2 overflow-x-auto">
         <button onclick="filterProducts('all')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap active-filter">Todos</button>
         <button onclick="filterProducts('cadeiras')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Assentos</button>
         <button onclick="filterProducts('mesas')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Mesas</button>
     </div>
 
-    <!-- Product Grid -->
     <main class="container mx-auto px-4 py-8 mb-12">
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Items will be injected here via JavaScript -->
-        </div>
+            </div>
     </main>
 
-    <!-- Product Modal -->
     <div id="productModal" class="fixed inset-0 z-50 hidden opacity-0 pointer-events-none modal">
         <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity" onclick="closeModal()"></div>
         
@@ -94,13 +97,17 @@
                 </button>
 
                 <div class="grid grid-cols-1 md:grid-cols-2">
-                    <!-- Modal Image -->
-                    <div class="bg-gray-100 h-64 md:h-auto flex items-center justify-center relative">
-                        <img id="modalImg" src="" alt="Produto" class="w-full h-full object-cover">
-                        <span id="modalRefTag" class="absolute bottom-4 left-4 bg-white px-3 py-1 text-xs font-bold shadow rounded"></span>
+                    
+                    <div class="bg-gray-100 p-4 flex flex-col items-center justify-center relative">
+                        <div class="w-full h-64 md:h-80 relative mb-4 flex items-center justify-center">
+                            <img id="modalImg" src="" alt="Produto" class="max-w-full max-h-full object-contain mix-blend-multiply">
+                            <span id="modalRefTag" class="absolute bottom-0 left-0 bg-white px-3 py-1 text-xs font-bold shadow rounded"></span>
+                        </div>
+                    
+                        <div id="modalThumbnails" class="flex gap-2 overflow-x-auto w-full justify-center min-h-[70px] py-2 px-2">
+                            </div>
                     </div>
 
-                    <!-- Modal Details -->
                     <div class="p-8">
                         <div class="mb-1">
                             <span id="modalCategory" class="text-xs font-bold tracking-widest text-wood uppercase"></span>
@@ -108,7 +115,6 @@
                         <h2 id="modalTitle" class="text-3xl font-bold mb-2 serif-font text-gray-900"></h2>
                         <p id="modalDesc" class="text-gray-600 mb-6 text-sm leading-relaxed"></p>
 
-                        <!-- Tech Specs Table -->
                         <div class="border rounded-lg overflow-hidden mb-6">
                             <table class="w-full text-sm text-left">
                                 <tbody class="divide-y divide-gray-100">
@@ -133,9 +139,9 @@
                         </div>
 
                         <div class="flex gap-3">
-                            <a id="btnOrcamento" href="#" target="_blank" class="flex-1 bg-gray-900 text-white py-3 rounded hover:bg-gray-800 transition font-medium text-center inline-block">
-    <i class="fas fa-envelope mr-2"></i> Orçamento
-</a>
+                            <a id="btnOrcamento" href="#" target="_blank" class="flex-1 bg-gray-900 text-white py-3 rounded hover:bg-gray-800 transition font-medium text-center inline-flex justify-center items-center">
+                                <i class="fas fa-envelope mr-2"></i> Orçamento
+                            </a>
                             <button onclick="window.print()" class="px-4 border border-gray-300 rounded hover:bg-gray-50 text-gray-600">
                                 <i class="fas fa-print"></i>
                             </button>
@@ -146,7 +152,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="bg-white border-t mt-auto py-8">
         <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
             <p>&copy; 2026 Lançamentos Matrezan. CNPJ: 94.784.543/0001-90 | All rights reserved.</p>
@@ -154,9 +159,7 @@
     </footer>
 
     <script>
-        // --- DADOS DO PRODUTO (Baseado na tabela image_47cc81.png) ---
-        // Ordenado por Referência Numérica
-        
+        // --- DADOS DO PRODUTO ---
         const products = [
             // 15xx - Mesas de Centro
             {
@@ -276,7 +279,7 @@
                 img: "2980A.jpeg" 
             },
 
-            // 10xxx - Mesas de Jantar (Agrupadas por Modelo/Imagem)
+            // 10xxx - Mesas de Jantar
             {
                 ref: "10550 / 10551",
                 name: "Mesa Sala Josi (Redonda e Quadrada)",
@@ -365,6 +368,7 @@
         }
 
         function openModal(product) {
+            // 1. Textos
             document.getElementById('modalTitle').innerText = product.name;
             document.getElementById('modalDesc').innerText = product.desc;
             document.getElementById('modalRef').innerText = product.ref;
@@ -372,33 +376,72 @@
             document.getElementById('modalConfig').innerText = product.config;
             document.getElementById('modalVol').innerText = product.vol;
             
-            // Image handling with fallback
-            const imgEl = document.getElementById('modalImg');
-            imgEl.src = product.img;
-            imgEl.onerror = function() {
-                this.src = 'https://placehold.co/600x400/e2e8f0/8B5A2B?text=Imagem+Indisponível';
-            };
-
             document.getElementById('modalCategory').innerText = product.category === 'cadeiras' ? 'Coleção de Assentos' : 'Coleção de Mesas';
             document.getElementById('modalRefTag').innerText = `Ref. ${product.ref.split(' ')[0]}`;
 
+            // 2. Imagem Principal
+            const mainImg = document.getElementById('modalImg');
+            mainImg.src = product.img;
+            mainImg.onerror = function() {
+                this.src = 'https://placehold.co/600x400/e2e8f0/8B5A2B?text=Imagem+Indisponível';
+            };
+
+            // 3. Galeria (Miniaturas)
+            const thumbnailsContainer = document.getElementById('modalThumbnails');
+            thumbnailsContainer.innerHTML = ''; // Limpa anterior
+
+            // Lógica para detectar base do nome: "1552A.jpeg" -> base "1552", ext ".jpeg"
+            const extension = product.img.substring(product.img.lastIndexOf('.'));
+            const baseName = product.img.replace('A' + extension, '').replace(extension, ''); 
+            // O replace extra garante que se a imagem principal não tiver "A" (ex: "1552.jpeg"), o código tente adaptar, 
+            // mas o ideal é que suas imagens principais sempre terminem com "A".
+
+            const suffixes = ['A', 'B', 'C', 'D'];
+
+            suffixes.forEach(suffix => {
+                // Tenta montar nome: 1552 + A + .jpeg
+                // Nota: Se sua imagem original já tem o A, o baseName removeu ele.
+                const imgName = baseName + suffix + extension;
+                
+                const thumb = document.createElement('img');
+                thumb.src = imgName;
+                thumb.className = "w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-gray-900 transition opacity-0 transition-opacity duration-300 bg-white";
+                
+                // Se carregar, exibe
+                thumb.onload = function() {
+                    this.classList.remove('opacity-0');
+                };
+                // Se der erro (arquivo não existe), remove do DOM
+                thumb.onerror = function() {
+                    this.remove();
+                };
+
+                // Clique para trocar
+                thumb.onclick = function() {
+                    mainImg.src = this.src;
+                    // Remove borda de todos e põe no atual
+                    Array.from(thumbnailsContainer.children).forEach(t => t.classList.remove('border-gray-900'));
+                    this.classList.add('border-gray-900');
+                };
+
+                // Seleciona o 'A' por padrão se for a imagem inicial
+                if (suffix === 'A') thumb.classList.add('border-gray-900');
+
+                thumbnailsContainer.appendChild(thumb);
+            });
+
+            // 4. Link WhatsApp Dinâmico
+            const whatsappNumber = "555421161238"; 
+            const message = encodeURIComponent(`Olá, gostaria de um orçamento para o produto: ${product.name} (Ref: ${product.ref})`);
+            document.getElementById('btnOrcamento').href = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+            // 5. Exibir Modal
             const modal = document.getElementById('productModal');
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0', 'pointer-events-none');
                 document.body.classList.add('modal-active');
             }, 10);
-            // --- DENTRO DA FUNÇÃO openModal(product) ---
-// Adicione este bloco logo após as linhas que preenchem o modal
-
-// 1. Seu número de WhatsApp (apenas números, com código do país e DDD)
-const whatsappNumber = "555421161238"; 
-
-// 2. Cria a mensagem personalizada
-const message = encodeURIComponent(`Olá, gostaria de um orçamento para o produto: ${product.name} (Ref: ${product.ref})`);
-
-// 3. Atualiza o link do botão
-document.getElementById('btnOrcamento').href = `https://wa.me/${whatsappNumber}?text=${message}`;
         }
 
         function closeModal() {
@@ -426,8 +469,6 @@ document.getElementById('btnOrcamento').href = `https://wa.me/${whatsappNumber}?
 
     </script>
 </body>
-
 </html>
-
 
 
