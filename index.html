@@ -37,7 +37,7 @@
             overflow-y: hidden;
         }
 
-        /* Esconde barra de rolagem nas miniaturas mas permite rolar */
+        /* Scrollbar customizada para miniaturas */
         #modalThumbnails::-webkit-scrollbar {
             height: 4px;
         }
@@ -55,9 +55,10 @@
                 Coleção Matrezan<span class="wood-accent">.2026</span>
             </div>
             <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-500">
-                <a href="#" onclick="filterProducts('all')" class="hover:text-gray-900">Todos</a>
-                <a href="#" onclick="filterProducts('cadeiras')" class="hover:text-gray-900">Assentos</a>
-                <a href="#" onclick="filterProducts('mesas')" class="hover:text-gray-900">Mesas</a>
+                <a href="#" onclick="filterProducts('all')" class="hover:text-gray-900">TODOS</a>
+                <a href="#" onclick="filterProducts('cadeiras')" class="hover:text-gray-900">ESTOFADOS</a>
+                <a href="#" onclick="filterProducts('mesas')" class="hover:text-gray-900">MESAS</a>
+		<a href="#" onclick="filterProducts('complementos')" class="hover:text-gray-900">COMPLEMENTOS</a>
             </nav>
             <a href="https://matrezan.com.br/en/catalogos/" target="_blank" class="bg-gray-900 text-white px-4 py-2 rounded text-sm hover:bg-gray-800 transition inline-flex items-center">
                 <i class="fas fa-download mr-2"></i> Baixar Catálogo PDF
@@ -77,8 +78,9 @@
 
     <div class="container mx-auto px-4 py-6 md:hidden flex gap-2 overflow-x-auto">
         <button onclick="filterProducts('all')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap active-filter">Todos</button>
-        <button onclick="filterProducts('cadeiras')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Assentos</button>
-        <button onclick="filterProducts('mesas')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">Mesas</button>
+        <button onclick="filterProducts('cadeiras')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">ESTOFADOS</button>
+        <button onclick="filterProducts('mesas')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">MESAS</button>
+	<button onclick="filterProducts('complementos')" class="px-4 py-2 bg-white border rounded-full text-sm whitespace-nowrap">COMPLEMENTOS</button>
     </div>
 
     <main class="container mx-auto px-4 py-8 mb-12">
@@ -99,9 +101,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     
                     <div class="bg-gray-100 p-4 flex flex-col items-center justify-center relative">
-                        <div class="w-full h-64 md:h-80 relative mb-4 flex items-center justify-center">
-                            <img id="modalImg" src="" alt="Produto" class="max-w-full max-h-full object-contain mix-blend-multiply">
-                            <span id="modalRefTag" class="absolute bottom-0 left-0 bg-white px-3 py-1 text-xs font-bold shadow rounded"></span>
+                        <div class="w-full h-64 md:h-80 relative mb-4 flex items-center justify-center bg-white rounded shadow-sm overflow-hidden">
+                            
+                            <img id="modalImg" src="" alt="Produto" class="w-full h-full object-contain mix-blend-multiply transition-opacity duration-300">
+                            
+                            <video id="modalVideo" class="hidden w-full h-full object-contain" controls loop playsinline>
+                                Seu navegador não suporta vídeos.
+                            </video>
+
+                            <span id="modalRefTag" class="absolute bottom-0 left-0 bg-white px-3 py-1 text-xs font-bold shadow rounded z-10"></span>
                         </div>
                     
                         <div id="modalThumbnails" class="flex gap-2 overflow-x-auto w-full justify-center min-h-[70px] py-2 px-2">
@@ -160,8 +168,9 @@
 
     <script>
         // --- DADOS DO PRODUTO ---
+        // Adicionei o campo 'video' em todos. Se não tiver vídeo, deixe vazio: video: ""
+        
         const products = [
-
             // 10xxx - Mesas de Jantar
             {
                 ref: "10550 / 10551",
@@ -171,7 +180,8 @@
                 dim: "Ref 10550: 1200x1200x760\nRef 10551: 1500x1500x760",
                 vol: "2",
                 desc: "Mesa de jantar com base estruturada e tampo redondo ou barril.",
-                img: "10551A.jpeg"
+                img: "10551A.jpeg",
+                video: "10551.mp4" // Coloque o nome aqui. Ex: "10551.mp4"
             },
             {
                 ref: "10553 a 10556",
@@ -181,7 +191,8 @@
                 dim: "Ref 10553: 1800x1000x760\nRef 10554: 2000x1000x760\nRef 10555: 2200x1100x760\nRef 10556: 2400x1200x760 (R80)",
                 vol: "2",
                 desc: "Versão retangular da Mesa Josi, disponível em grandes formatos.",
-                img: "10553A.jpeg"
+                img: "10553A.jpeg",
+                video: "10553.mp4"
             },
             {
                 ref: "10558 a 10561",
@@ -191,7 +202,8 @@
                 dim: "Ref 10558: 1800x1000x760\nRef 10559: 2000x1000x760\nRef 10560: 2200x1100x760\nRef 10561: 2400x1200x760 (R80)",
                 vol: "2",
                 desc: "Mesa imponente com design de base exclusivo.",
-                img: "10558A.jpeg"
+                img: "10558A.jpeg",
+                video: "10558.mp4"
             },
             {
                 ref: "10563 a 10566",
@@ -201,7 +213,8 @@
                 dim: "Ref 10563: 1800x1000x760\nRef 10564: 2000x1000x760\nRef 10565: 2200x1100x760\nRef 10566: 2400x1200x760 (R80)",
                 vol: "2",
                 desc: "Base escultórica com tampo refinado.",
-                img: "10563A.jpeg"
+                img: "10563A.jpeg",
+                video: "10563.mp4"
             },
             {
                 ref: "10568 a 10571",
@@ -211,7 +224,8 @@
                 dim: "Ref 10568: 1800x1000x760\nRef 10569: 2000x1000x760\nRef 10570: 2200x1100x760\nRef 10571: 2400x1200x760 (R80)",
                 vol: "2",
                 desc: "Linhas retas e modernas, ideal para compor salas de jantar elegantes.",
-                img: "10568A.jpeg"
+                img: "10568A.jpeg",
+                video: "10568.mp4"
             },
 
             // 26xx - Cadeiras
@@ -222,8 +236,9 @@
                 config: "Frente Estofada",
                 dim: "490x540x860",
                 vol: "2 por cx",
-                desc: "Cadeira com estrutura em madeira maciça e detalhe frontal estofado. Encosto anatômico em BP.",
-                img: "2677A.jpeg"
+                desc: "Cadeira com estrutura em madeira maciça e detalhe frontal estofado. Encosto anatômico em Padrão madeirado. Possui percintas no assento.",
+                img: "2677A.jpeg",
+                video: "2677.mp4"
             },
             {
                 ref: "2678",
@@ -232,8 +247,9 @@
                 config: "Toda Estofada",
                 dim: "490x540x860",
                 vol: "2 por cx",
-                desc: "Conforto absoluto com assento e encosto totalmente estofados.",
-                img: "2678A.jpeg"
+                desc: "Conforto absoluto com assento e encosto totalmente estofados. Possui percintas no assento.",
+                img: "2678A.jpeg",
+                video: "2678.mp4"
             },
             {
                 ref: "2679",
@@ -242,8 +258,9 @@
                 config: "Frente Estofada",
                 dim: "490x560x840",
                 vol: "2 por cx",
-                desc: "Linhas modernas e compactas, ideal para ambientes dinâmicos. Encosto anatômico em BP.",
-                img: "2679A.jpeg"
+                desc: "Linhas modernas e compactas, ideal para ambientes dinâmicos. Encosto anatômico em Padrão madeirado. Possui percintas no assento.",
+                img: "2679A.jpeg",
+                video: "2679.mp4"
             },
             {
                 ref: "2680",
@@ -252,11 +269,12 @@
                 config: "Toda Estofada",
                 dim: "490x560x840",
                 vol: "2 por cx",
-                desc: "Sofisticação e aconchego em uma peça totalmente estofada.",
-                img: "2680A.jpeg"
+                desc: "Sofisticação e aconchego em uma peça totalmente estofada. Possui percintas no assento.",
+                img: "2680A.jpeg",
+                video: "2680.mp4"
             },
+
             // 29xx - Poltronas
-            
             {
                 ref: "2979",
                 name: "Poltrona Berenice",
@@ -264,8 +282,9 @@
                 config: "Frente Estofada",
                 dim: "590x610x835",
                 vol: "1",
-                desc: "Poltrona ampla com excelente suporte lombar e acabamento premium.",
-                img: "2979A.jpeg"
+                desc: "Poltrona ampla com excelente suporte lombar e acabamento premium. Possui percintas no assento.",
+                img: "2979A.jpeg",
+                video: "2979.mp4"
             },
             {
                 ref: "2980",
@@ -275,54 +294,59 @@
                 dim: "545x550x820",
                 vol: "1",
                 desc: "Design envolvente com frente estofada para máximo conforto.",
-                img: "2980A.jpeg" 
+                img: "2980A.jpeg",
+                video: "2980.mp4"
             },
-
 
             // 15xx - Mesas de Centro
             {
                 ref: "1552",
                 name: "Mesa Centro Lyra",
-                category: "mesas",
+                category: "complementos",
                 config: "Orgânica",
                 dim: "915x770x315",
                 vol: "2",
-                desc: "Mesa de centro com design orgânico fluido, ideal para salas contemporâneas. Acompanha almofada. Pode ser usada como cama para seu Pet",
-                img: "1552A.jpeg"
+                desc: "Mesa de centro com design orgânico fluido, ideal para salas contemporâneas. Acompanha almofada servindo como cama para seu Pet.",
+                img: "1552A.jpeg",
+                video: "1552.mp4"
             },
             {
                 ref: "1553",
                 name: "Mesa Centro Ivy",
-                category: "mesas",
+                category: "complementos",
                 config: "Orgânica",
                 dim: "1600x800x360",
                 vol: "2",
                 desc: "Mesa de centro ampla com formas naturais e acabamento refinado.",
-                img: "1553A.jpeg"
+                img: "1553A.jpeg",
+                video: "1553.mp4"
             },
             
             // 17xx - Mesas Laterais
             {
                 ref: "1777 / 1778",
                 name: "Mesa Lateral Adele",
-                category: "mesas",
+                category: "complementos",
                 config: "Orgânica ou Redonda",
-                dim: "Ref 1777: 380x395x500\nRef 1778: 390x390x600",
+                dim: "Ref 1777: 380x395x500 (baixa)\nRef 1778: 390x390x600 (alta)",
                 vol: "1",
                 desc: "Mesa de apoio versátil disponível em duas alturas para composição.",
-                img: "1777A.jpeg"
+                img: "1777A.jpeg",
+                video: "1777.mp4"
             },
             {
                 ref: "1779 / 1780",
                 name: "Mesa Lateral Caetana",
-                category: "mesas",
+                category: "complementos",
                 config: "Orgânica ou Redonda",
-                dim: "Ref 1779: 380x395x550\nRef 1780: 390x390x650",
+                dim: "Ref 1779: 380x395x550 (baixa)\nRef 1780: 390x390x650 (alta)",
                 vol: "1",
-                desc: "Design leve e elegante, perfeita para lateral de sofás e poltronas. Disponível em duas alturas.",
-                img: "1779A.jpeg"
+                desc: "Design leve e elegante, perfeita para lateral de sofás e poltronas.",
+                img: "1779A.jpeg",
+                video: "1779.mp4"
             },
-            // 29xx - Banco
+            
+            // Outros
             {
                 ref: "2978",
                 name: "Banco Elvira",
@@ -330,27 +354,24 @@
                 config: "Assento Estofado",
                 dim: "540x450x455",
                 vol: "1",
-                desc: "Banco versátil e funcional com design limpo.",
-                img: "2978A.jpeg"
+                desc: "Banco versátil e funcional com design limpo. Possui percintas no assento.",
+                img: "2978A.jpeg",
+                video: "2978.mp4"
             },
-            // 32xx - Adega
              {
                 ref: "3200",
                 name: "Adega Videira",
-                category: "mesas",
+                category: "complementos",
                 config: "redonda",
                 dim: "455x360x480",
                 vol: "1",
-                desc: "Adega de mesa com design contemporâneo e escultural, que utiliza uma combinação sofisticada de materiais.",
-                img: "3200A.jpeg"
+                desc: "Adega de mesa com design contemporâneo.",
+                img: "3200A.jpeg",
+                video: "3200.mp4"
             }
-
-            
-            
-            
         ];
 
-        // --- FUNÇÕES ---
+        // --- FUNÇÕES DE RENDERIZAÇÃO ---
 
         function renderProducts(filter = 'all') {
             const grid = document.getElementById('productGrid');
@@ -365,8 +386,14 @@
                 card.className = 'product-card bg-white rounded-lg shadow overflow-hidden cursor-pointer group';
                 card.onclick = () => openModal(product);
                 
+                // Ícone de Play no card se tiver vídeo
+                const videoIcon = product.video && product.video !== "" 
+                    ? '<div class="absolute top-2 right-2 bg-white/90 rounded-full w-8 h-8 flex items-center justify-center text-wood shadow-sm z-10"><i class="fas fa-play text-xs pl-0.5"></i></div>' 
+                    : '';
+
                 card.innerHTML = `
                     <div class="h-64 overflow-hidden relative">
+                        ${videoIcon}
                         <img src="${product.img}" onerror="this.src='https://placehold.co/600x400/e2e8f0/8B5A2B?text=Sem+Foto'" alt="${product.name}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                         <div class="absolute bottom-0 left-0 bg-white/90 backdrop-blur px-3 py-1 text-xs font-bold rounded-tr-lg">
                             Ref. ${product.ref.split(' ')[0]}
@@ -397,63 +424,91 @@
             document.getElementById('modalCategory').innerText = product.category === 'cadeiras' ? 'Coleção de Assentos' : 'Coleção de Mesas';
             document.getElementById('modalRefTag').innerText = `Ref. ${product.ref.split(' ')[0]}`;
 
-            // 2. Imagem Principal
+            // 2. Elementos de Mídia (Img e Video)
             const mainImg = document.getElementById('modalImg');
+            const mainVideo = document.getElementById('modalVideo');
+            
+            // 3. Resetar Estado (Mostrar Imagem, Esconder Vídeo)
+            mainImg.classList.remove('hidden');
+            mainVideo.classList.add('hidden');
+            mainVideo.pause(); // Para vídeo anterior
+            mainVideo.src = ""; // Limpa source anterior
+
+            // Carrega Imagem Principal
             mainImg.src = product.img;
             mainImg.onerror = function() {
                 this.src = 'https://placehold.co/600x400/e2e8f0/8B5A2B?text=Imagem+Indisponível';
             };
 
-            // 3. Galeria (Miniaturas)
+            // 4. Galeria de Miniaturas
             const thumbnailsContainer = document.getElementById('modalThumbnails');
-            thumbnailsContainer.innerHTML = ''; // Limpa anterior
+            thumbnailsContainer.innerHTML = ''; 
 
-            // Lógica para detectar base do nome: "1552A.jpeg" -> base "1552", ext ".jpeg"
+            // --- A) Lógica das Imagens (A, B, C, D) ---
             const extension = product.img.substring(product.img.lastIndexOf('.'));
             const baseName = product.img.replace('A' + extension, '').replace(extension, ''); 
-            // O replace extra garante que se a imagem principal não tiver "A" (ex: "1552.jpeg"), o código tente adaptar, 
-            // mas o ideal é que suas imagens principais sempre terminem com "A".
-
             const suffixes = ['A', 'B', 'C', 'D'];
 
             suffixes.forEach(suffix => {
-                // Tenta montar nome: 1552 + A + .jpeg
-                // Nota: Se sua imagem original já tem o A, o baseName removeu ele.
                 const imgName = baseName + suffix + extension;
-                
                 const thumb = document.createElement('img');
                 thumb.src = imgName;
                 thumb.className = "w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-gray-900 transition opacity-0 transition-opacity duration-300 bg-white";
                 
-                // Se carregar, exibe
-                thumb.onload = function() {
-                    this.classList.remove('opacity-0');
-                };
-                // Se der erro (arquivo não existe), remove do DOM
-                thumb.onerror = function() {
-                    this.remove();
-                };
+                thumb.onload = function() { this.classList.remove('opacity-0'); };
+                thumb.onerror = function() { this.remove(); };
 
-                // Clique para trocar
+                // Clique na miniatura de FOTO
                 thumb.onclick = function() {
+                    // Esconde vídeo, mostra foto
+                    mainVideo.classList.add('hidden');
+                    mainVideo.pause();
+                    mainImg.classList.remove('hidden');
+                    
                     mainImg.src = this.src;
-                    // Remove borda de todos e põe no atual
+                    
+                    // Borda
                     Array.from(thumbnailsContainer.children).forEach(t => t.classList.remove('border-gray-900'));
                     this.classList.add('border-gray-900');
                 };
 
-                // Seleciona o 'A' por padrão se for a imagem inicial
+                // Seleciona a imagem A por padrão
                 if (suffix === 'A') thumb.classList.add('border-gray-900');
-
                 thumbnailsContainer.appendChild(thumb);
             });
 
-            // 4. Link WhatsApp Dinâmico
+            // --- B) Lógica do VÍDEO (Botão Play na Galeria) ---
+            if (product.video && product.video !== "") {
+                const vidBtn = document.createElement('div');
+                vidBtn.className = "w-16 h-16 flex items-center justify-center bg-gray-100 rounded cursor-pointer border-2 border-transparent hover:border-gray-900 text-wood transition shrink-0";
+                vidBtn.innerHTML = '<i class="fas fa-play text-xl"></i>';
+                
+                // Clique no botão de VÍDEO
+                vidBtn.onclick = function() {
+                    // Esconde foto, mostra vídeo
+                    mainImg.classList.add('hidden');
+                    mainVideo.classList.remove('hidden');
+                    
+                    // Se o src ainda não foi setado ou é diferente, carrega
+                    if (!mainVideo.src.includes(product.video)) {
+                        mainVideo.src = product.video;
+                    }
+                    mainVideo.play();
+
+                    // Borda
+                    Array.from(thumbnailsContainer.children).forEach(t => t.classList.remove('border-gray-900'));
+                    this.classList.add('border-gray-900');
+                };
+
+                thumbnailsContainer.appendChild(vidBtn);
+            }
+
+            // 5. WhatsApp Link
             const whatsappNumber = "555421161238"; 
             const message = encodeURIComponent(`Olá, gostaria de um orçamento para o produto: ${product.name} (Ref: ${product.ref})`);
             document.getElementById('btnOrcamento').href = `https://wa.me/${whatsappNumber}?text=${message}`;
 
-            // 5. Exibir Modal
+            // 6. Exibir Modal
             const modal = document.getElementById('productModal');
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -464,6 +519,11 @@
 
         function closeModal() {
             const modal = document.getElementById('productModal');
+            const mainVideo = document.getElementById('modalVideo');
+            
+            // Pausa o vídeo imediatamente ao fechar
+            if(mainVideo) mainVideo.pause();
+
             modal.classList.add('opacity-0', 'pointer-events-none');
             document.body.classList.remove('modal-active');
             
@@ -482,14 +542,9 @@
             }
         });
 
-        // Initialize
+        // Iniciar
         renderProducts();
 
     </script>
 </body>
 </html>
-
-
-
-
-
