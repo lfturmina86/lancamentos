@@ -161,123 +161,6 @@
     <script>
         // --- DADOS DO PRODUTO ---
         const products = [
-            // 15xx - Mesas de Centro
-            {
-                ref: "1552",
-                name: "Mesa Centro Lyra",
-                category: "mesas",
-                config: "Orgânica",
-                dim: "915x770x315",
-                vol: "2",
-                desc: "Mesa de centro com design orgânico fluido, ideal para salas contemporâneas. Acompanha almofada. Pode ser usada como cama para seu Pet",
-                img: "1552A.jpeg"
-            },
-            {
-                ref: "1553",
-                name: "Mesa Centro Ivy",
-                category: "mesas",
-                config: "Orgânica",
-                dim: "1600x800x360",
-                vol: "2",
-                desc: "Mesa de centro ampla com formas naturais e acabamento refinado.",
-                img: "1553A.jpeg"
-            },
-            
-            // 17xx - Mesas Laterais
-            {
-                ref: "1777 / 1778",
-                name: "Mesa Lateral Adele",
-                category: "mesas",
-                config: "Orgânica ou Redonda",
-                dim: "Ref 1777: 380x395x500\nRef 1778: 390x390x600",
-                vol: "1",
-                desc: "Mesa de apoio versátil disponível em duas alturas para composição.",
-                img: "1777A.jpeg"
-            },
-            {
-                ref: "1779 / 1780",
-                name: "Mesa Lateral Caetana",
-                category: "mesas",
-                config: "Orgânica ou Redonda",
-                dim: "Ref 1779: 380x395x550\nRef 1780: 390x390x650",
-                vol: "1",
-                desc: "Design leve e elegante, perfeita para lateral de sofás e poltronas. Disponível em duas alturas.",
-                img: "1779A.jpeg"
-            },
-
-            // 26xx - Cadeiras
-            {
-                ref: "2677",
-                name: "Cadeira Serena",
-                category: "cadeiras",
-                config: "Frente Estofada",
-                dim: "490x540x860",
-                vol: "2 por cx",
-                desc: "Cadeira com estrutura em madeira maciça e detalhe frontal estofado. Encosto anatômico em BP.",
-                img: "2677A.jpeg"
-            },
-            {
-                ref: "2678",
-                name: "Cadeira Leonora",
-                category: "cadeiras",
-                config: "Toda Estofada",
-                dim: "490x540x860",
-                vol: "2 por cx",
-                desc: "Conforto absoluto com assento e encosto totalmente estofados.",
-                img: "2678A.jpeg"
-            },
-            {
-                ref: "2679",
-                name: "Cadeira Mia",
-                category: "cadeiras",
-                config: "Frente Estofada",
-                dim: "490x560x840",
-                vol: "2 por cx",
-                desc: "Linhas modernas e compactas, ideal para ambientes dinâmicos. Encosto anatômico em BP.",
-                img: "2679A.jpeg"
-            },
-            {
-                ref: "2680",
-                name: "Cadeira Jamile",
-                category: "cadeiras",
-                config: "Toda Estofada",
-                dim: "490x560x840",
-                vol: "2 por cx",
-                desc: "Sofisticação e aconchego em uma peça totalmente estofada.",
-                img: "2680A.jpeg"
-            },
-
-            // 29xx - Bancos e Poltronas
-            {
-                ref: "2978",
-                name: "Banco Elvira",
-                category: "cadeiras",
-                config: "Assento Estofado",
-                dim: "540x450x455",
-                vol: "1",
-                desc: "Banco versátil e funcional com design limpo.",
-                img: "2978A.jpeg"
-            },
-            {
-                ref: "2979",
-                name: "Poltrona Berenice",
-                category: "cadeiras",
-                config: "Frente Estofada",
-                dim: "590x610x835",
-                vol: "1",
-                desc: "Poltrona ampla com excelente suporte lombar e acabamento premium.",
-                img: "2979A.jpeg"
-            },
-            {
-                ref: "2980",
-                name: "Poltrona Giordana",
-                category: "cadeiras",
-                config: "Frente Estofada",
-                dim: "545x550x820",
-                vol: "1",
-                desc: "Design envolvente com frente estofada para máximo conforto.",
-                img: "2980A.jpeg" 
-            },
 
             // 10xxx - Mesas de Jantar
             {
@@ -329,7 +212,131 @@
                 vol: "2",
                 desc: "Linhas retas e modernas, ideal para compor salas de jantar elegantes.",
                 img: "10568A.jpeg"
+            },
+
+            // 26xx - Cadeiras
+            {
+                ref: "2677",
+                name: "Cadeira Serena",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "490x540x860",
+                vol: "2 por cx",
+                desc: "Cadeira com estrutura em madeira maciça e detalhe frontal estofado. Encosto anatômico em BP.",
+                img: "2677A.jpeg"
+            },
+            {
+                ref: "2678",
+                name: "Cadeira Leonora",
+                category: "cadeiras",
+                config: "Toda Estofada",
+                dim: "490x540x860",
+                vol: "2 por cx",
+                desc: "Conforto absoluto com assento e encosto totalmente estofados.",
+                img: "2678A.jpeg"
+            },
+            {
+                ref: "2679",
+                name: "Cadeira Mia",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "490x560x840",
+                vol: "2 por cx",
+                desc: "Linhas modernas e compactas, ideal para ambientes dinâmicos. Encosto anatômico em BP.",
+                img: "2679A.jpeg"
+            },
+            {
+                ref: "2680",
+                name: "Cadeira Jamile",
+                category: "cadeiras",
+                config: "Toda Estofada",
+                dim: "490x560x840",
+                vol: "2 por cx",
+                desc: "Sofisticação e aconchego em uma peça totalmente estofada.",
+                img: "2680A.jpeg"
+            },
+            // 29xx - Poltronas
+            
+            {
+                ref: "2979",
+                name: "Poltrona Berenice",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "590x610x835",
+                vol: "1",
+                desc: "Poltrona ampla com excelente suporte lombar e acabamento premium.",
+                img: "2979A.jpeg"
+            },
+            {
+                ref: "2980",
+                name: "Poltrona Giordana",
+                category: "cadeiras",
+                config: "Frente Estofada",
+                dim: "545x550x820",
+                vol: "1",
+                desc: "Design envolvente com frente estofada para máximo conforto.",
+                img: "2980A.jpeg" 
+            },
+
+
+            // 15xx - Mesas de Centro
+            {
+                ref: "1552",
+                name: "Mesa Centro Lyra",
+                category: "mesas",
+                config: "Orgânica",
+                dim: "915x770x315",
+                vol: "2",
+                desc: "Mesa de centro com design orgânico fluido, ideal para salas contemporâneas. Acompanha almofada. Pode ser usada como cama para seu Pet",
+                img: "1552A.jpeg"
+            },
+            {
+                ref: "1553",
+                name: "Mesa Centro Ivy",
+                category: "mesas",
+                config: "Orgânica",
+                dim: "1600x800x360",
+                vol: "2",
+                desc: "Mesa de centro ampla com formas naturais e acabamento refinado.",
+                img: "1553A.jpeg"
+            },
+            
+            // 17xx - Mesas Laterais
+            {
+                ref: "1777 / 1778",
+                name: "Mesa Lateral Adele",
+                category: "mesas",
+                config: "Orgânica ou Redonda",
+                dim: "Ref 1777: 380x395x500\nRef 1778: 390x390x600",
+                vol: "1",
+                desc: "Mesa de apoio versátil disponível em duas alturas para composição.",
+                img: "1777A.jpeg"
+            },
+            {
+                ref: "1779 / 1780",
+                name: "Mesa Lateral Caetana",
+                category: "mesas",
+                config: "Orgânica ou Redonda",
+                dim: "Ref 1779: 380x395x550\nRef 1780: 390x390x650",
+                vol: "1",
+                desc: "Design leve e elegante, perfeita para lateral de sofás e poltronas. Disponível em duas alturas.",
+                img: "1779A.jpeg"
+            },
+            // 29xx - Banco
+            {
+                ref: "2978",
+                name: "Banco Elvira",
+                category: "cadeiras",
+                config: "Assento Estofado",
+                dim: "540x450x455",
+                vol: "1",
+                desc: "Banco versátil e funcional com design limpo.",
+                img: "2978A.jpeg"
             }
+
+            
+            
+            
         ];
 
         // --- FUNÇÕES ---
@@ -470,6 +477,7 @@
     </script>
 </body>
 </html>
+
 
 
 
